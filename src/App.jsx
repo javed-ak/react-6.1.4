@@ -3,15 +3,21 @@ import { useEffect, useState } from "react"
 function App() {
   const [todos , setTodos] = useState([])
 
-  useEffect(() => {
-    setInterval(() => {
-      fetch("https://sum-server.100xdevs.com/todos")
+  // useAsyncEffect
+  function main() {
+    setInterval(async () => {
+      await fetch("https://sum-server.100xdevs.com/todos")
       .then(async function(res) {
         const json = await res.json();
         setTodos(json);
       })
     }, 10000)
+  }
+
+  useEffect(() => {
+    main()
   }, [])
+
   return (
     <>
     {todos.map(todo => <Todo key={todo.id} title={todo.title} description={todo.description} />)}
